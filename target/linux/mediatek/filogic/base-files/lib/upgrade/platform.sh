@@ -67,11 +67,12 @@ platform_do_upgrade() {
 		CI_ROOTPART="rootfs"
 		emmc_do_upgrade "$1"
 		;;
+	asus,rt-ax59u|\
 	asus,tuf-ax4200|\
 	asus,tuf-ax6000)
 		CI_UBIPART="UBI_DEV"
 		CI_KERNPART="linux"
-		nand_do_upgrade "$1"
+		nand_do_upgrade "$board" "$1"
 		;;
 	bananapi,bpi-r3)
 		local rootdev="$(cmdline_get_var root)"
@@ -154,6 +155,11 @@ platform_check_image() {
 	[ "$#" -gt 1 ] && return 1
 
 	case "$board" in
+	asus,rt-ax59u|\
+	asus,tuf-ax4200|\
+	asus,tuf-ax6000)
+		asus_check_image "$board" "$1" || return 1
+		;;
 	bananapi,bpi-r3|\
 	cmcc,rax3000m)
 		[ "$magic" != "d00dfeed" ] && {
