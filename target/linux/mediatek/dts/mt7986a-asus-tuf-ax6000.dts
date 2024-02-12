@@ -154,6 +154,20 @@
 };
 
 &pio {
+	i2c0_pins: i2c0-pins {
+		mux {
+			function = "i2c";
+			groups = "i2c";
+		};
+	};
+
+	pwm_pins: pwm-pins {
+		mux {
+			function = "pwm";
+			groups = "pwm0", "pwm1_0";
+		};
+	};
+
 	spi_flash_pins: spi-flash-pins-33-to-38 {
 		mux {
 			function = "spi";
@@ -379,5 +393,46 @@
 };
 
 &usb_phy {
+	status = "okay";
+};
+
+&i2c0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+	status = "okay";
+
+	system-leds {
+		compatible = "srg,sysled";
+		reg = <0x30>;
+
+		led_status_red: led@1 {
+			color = <LED_COLOR_ID_RED>;
+			function = LED_FUNCTION_STATUS;
+			reg = <1>;
+		};
+
+		led_status_green: led@2 {
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_STATUS;
+			reg = <2>;
+		};
+
+		led_status_blue: led@3 {
+			color = <LED_COLOR_ID_BLUE>;
+			function = LED_FUNCTION_STATUS;
+			reg = <3>;
+		};
+
+		led_status_white: led@4 {
+			color = <LED_COLOR_ID_WHITE>;
+			function = LED_FUNCTION_STATUS;
+			reg = <4>;
+		};
+	};
+};
+
+&pwm {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pwm_pins>;
 	status = "okay";
 };
